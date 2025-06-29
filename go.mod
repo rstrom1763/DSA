@@ -1,3 +1,3 @@
 module github.com/rstrom1763/dsa
 
-go 1.23.8
+go 1.23
