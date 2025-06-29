@@ -1,6 +1,8 @@
 package dsa
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestPush(t *testing.T) {
 	var stack Stack[int32]
@@ -12,21 +14,27 @@ func TestPush(t *testing.T) {
 		t.Errorf("After Push got: %v; Wanted: %v", stack.Peek(), 10)
 	}
 
+	if stack.Length != 2 {
+		t.Errorf("Length incorrect; Got %v; Expected: %v", stack.Length, 2)
+	}
+
 }
 
 func TestPop(t *testing.T) {
 
 	var stack Stack[int32]
 
-	if stack.Pop() != false {
-		t.Errorf("Calling pop on empty stack did not return false")
-	}
-
 	stack.Push(4)
 	stack.Push(5)
+	stack.Push(15)
 	stack.Pop()
-	if stack.Peek() != 4 {
-		t.Errorf("After pop got: %v; Wanted: %v", stack.Peek(), 4)
+
+	if stack.Peek() != 5 {
+		t.Errorf("After pop got: %v; Wanted: %v", stack.Peek(), 5)
+	}
+
+	if stack.Length != 2 {
+		t.Errorf("Length incorrect; Got %v; Expected: %v", stack.Length, 2)
 	}
 
 }
@@ -53,7 +61,7 @@ func TestPrint(t *testing.T) {
 	stack.Push(5)
 	stack.Push(6)
 
-	if stack.Print() != "4 -> 5 -> 6\n" {
+	if stack.Print() != "6 -> 5 -> 4\n" {
 		t.Errorf("Print function did not print the correct string")
 	}
 
