@@ -69,7 +69,7 @@ func TestRemove(t *testing.T) {
 	// TODO tests for specifically deleting nodes with 0, 1 and 2 child nodes
 
 }
- 
+
 func TestGetMin(t *testing.T) {
 	var tree BST
 
