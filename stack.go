@@ -47,13 +47,9 @@ func (s *Stack[T]) Peek() T {
 
 	if s.Length > 0 {
 		return s.First.Item.(T)
-	}
-
-	if s.Length == 0 {
+	} else {
 		return zero
 	}
-
-	return zero
 
 }
 

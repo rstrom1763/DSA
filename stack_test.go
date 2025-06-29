@@ -22,7 +22,7 @@ func TestPush(t *testing.T) {
 
 func TestPop(t *testing.T) {
 
-	var stack Stack[int32]
+	var stack Stack[int]
 
 	stack.Push(4)
 	stack.Push(5)
@@ -37,6 +37,13 @@ func TestPop(t *testing.T) {
 		t.Errorf("Length incorrect; Got %v; Expected: %v", stack.Length, 2)
 	}
 
+	stack.Pop()
+	stack.Pop()
+	if stack.Size() != 0 {
+		t.Errorf("Length incorrect; Got %v; Expected: %v", stack.Length, 0)
+	}
+
+	stack.Pop()
 }
 
 func TestPeek(t *testing.T) {
