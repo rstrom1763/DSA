@@ -69,8 +69,16 @@ func TestDLLGet(t *testing.T) {
 		t.Errorf("Get did not get correct index; Expected value %v; Got %v", 45, item)
 	}
 
+	err, item = dll.Get(19)
+	if err != nil {
+		t.Errorf("Error getting index")
+	}
+	if item != 100 {
+		t.Errorf("error getting by walking from rear of DLL; Expected %v; Got %v", 100, item)
+	}
+
 	err, _ = dll.Get(69)
-	if err == nil {
+	if err.Error() != "index out of range" {
 		t.Errorf("No error value trying to get index outside of range")
 	}
 
@@ -108,6 +116,12 @@ func TestDLLRemove(t *testing.T) {
 	err = dll.Remove(0)
 	if err.Error() != "list is empty" {
 		t.Errorf("did not give proper error for empty list")
+	}
+
+	dll.InsertFront(5)
+	_ = dll.Remove(0)
+	if dll.Length() != 0 {
+		t.Errorf("failed to properly remove single root node")
 	}
 
 }

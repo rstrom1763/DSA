@@ -68,35 +68,56 @@ func (dll *DLL[T]) Length() int64 {
 }
 
 func (dll *DLL[T]) Get(index int64) (error, T) {
+	
+	if index <= (dll.Length() / 2) {
+		var i int64 = 0
+		var zero T
 
-	//TODO Implement walking list from rear first if index > dll/2
+		if dll.first == nil {
+			return fmt.Errorf("list is empty"), zero
+		}
 
-	var i int64 = 0
-	var zero T
+		currentNode := dll.first
 
-	if dll.first == nil {
-		return fmt.Errorf("list is empty"), zero
-	}
+		if index >= dll.Length() {
+			return fmt.Errorf("index out of range"), zero
+		}
 
-	currentNode := dll.first
+		for {
+			if index == i {
+				return nil, currentNode.item.(T)
+			} else {
+				currentNode = currentNode.next
+				i += 1
+			}
+		}
+	} else {
+		var i int64 = dll.Length() - 1
+		var zero T
 
-	if index >= dll.Length() {
-		return fmt.Errorf("index out of range"), zero
-	}
+		if dll.first == nil {
+			return fmt.Errorf("list is empty"), zero
+		}
 
-	for {
-		if index == i {
-			return nil, currentNode.item.(T)
-		} else {
-			currentNode = currentNode.next
-			i += 1
+		currentNode := dll.last
+
+		if index >= dll.Length() {
+			return fmt.Errorf("index out of range"), zero
+		}
+
+		for {
+			if index == i {
+				return nil, currentNode.item.(T)
+			} else {
+				currentNode = currentNode.prev
+				i -= 1
+			}
 		}
 	}
+
 }
 
 func (dll *DLL[T]) Remove(index int64) error {
-
-	//TODO Implement updating the prev links
 
 	var i int64 = 0
 
@@ -105,7 +126,6 @@ func (dll *DLL[T]) Remove(index int64) error {
 	}
 
 	currentNode := dll.first
-	var prevNode *dllNode
 
 	if index >= dll.Length() {
 		return fmt.Errorf("index out of range")
@@ -113,19 +133,26 @@ func (dll *DLL[T]) Remove(index int64) error {
 
 	for {
 
-		if index == 0 {
+		if index == 0 && dll.Length() > 1 {
 			dll.first = dll.first.next
 			dll.length -= 1
 			return nil
 		}
 
+		if dll.Length() == 1 {
+			dll.first = nil
+			dll.last = nil
+			dll.length -= 1
+			return nil
+		}
+
 		if index == i {
-			prevNode.next = currentNode.next
+			currentNode.prev.next = currentNode.next
+			currentNode.next.prev = currentNode.prev
 			currentNode.next = nil
 			dll.length -= 1
 			return nil
 		} else {
-			prevNode = currentNode
 			currentNode = currentNode.next
 			i += 1
 		}
