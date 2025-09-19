@@ -42,7 +42,7 @@ func (sll *SLL[T]) InsertEnd(item T) {
 
 	newNode := &sllNode{item: item, next: nil}
 
-	if sll.first == nil {
+	if sll.length == 0 {
 		sll.first = newNode
 		sll.last = newNode
 		return
@@ -50,6 +50,9 @@ func (sll *SLL[T]) InsertEnd(item T) {
 
 	sll.last.next = newNode
 	sll.last = newNode
+	if sll.Length() == 1 {
+		sll.first.next = newNode
+	}
 
 }
 
@@ -114,4 +117,12 @@ func (sll *SLL[T]) Remove(index int64) error {
 			i += 1
 		}
 	}
+}
+
+func (sll *SLL[T]) getFirst() T {
+	return sll.first.item.(T)
+}
+
+func (sll *SLL[T]) getLast() T {
+	return sll.last.item.(T)
 }

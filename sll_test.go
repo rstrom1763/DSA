@@ -2,7 +2,7 @@ package dsa
 
 import "testing"
 
-func initSLL() SLL[int] {
+func initTestSLL() SLL[int] {
 	var sll SLL[int]
 
 	numbers := []int{5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100}
@@ -15,7 +15,7 @@ func initSLL() SLL[int] {
 
 }
 
-func TestInsertFront(t *testing.T) {
+func TestSLLInsertFront(t *testing.T) {
 	var sll SLL[int]
 
 	sll.InsertFront(5)
@@ -30,7 +30,7 @@ func TestInsertFront(t *testing.T) {
 
 }
 
-func TestInsertEnd(t *testing.T) {
+func TestSLLInsertEnd(t *testing.T) {
 	var sll SLL[int]
 
 	sll.InsertEnd(5)
@@ -43,18 +43,23 @@ func TestInsertEnd(t *testing.T) {
 		t.Errorf("Did not insert 2 items correctly")
 	}
 
+	sll.InsertEnd(15)
+	if sll.first.item != 5 || sll.last.item != 15 {
+		t.Errorf("Did not insert 3 items correctly")
+	}
+
 }
 
-func TestLength(t *testing.T) {
-	sll := initSLL()
+func TestSLLLength(t *testing.T) {
+	sll := initTestSLL()
 
 	if sll.Length() != 20 {
 		t.Errorf("Incorrect length reported; Expected %v; Got %v", 20, sll.Length())
 	}
 }
 
-func TestGet(t *testing.T) {
-	sll := initSLL()
+func TestSLLGet(t *testing.T) {
+	sll := initTestSLL()
 
 	err, item := sll.Get(8)
 	if err != nil {
@@ -77,8 +82,18 @@ func TestGet(t *testing.T) {
 
 }
 
+func TestSLLGetLast(t *testing.T) {
+	sll := initTestSLL()
+
+	sll.InsertEnd(101)
+
+	if sll.getLast() != 101 {
+		t.Errorf("Did not properly get the last item")
+	}
+}
+
 func TestSLLRemove(t *testing.T) {
-	sll := initSLL()
+	sll := initTestSLL()
 
 	err := sll.Remove(0)
 	if err != nil || sll.first.item != 10 {
