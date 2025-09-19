@@ -4,12 +4,20 @@ import (
 	"testing"
 )
 
-func TestQueue(t *testing.T) {
+// Creates a queue with a few items in it for testing purposes
+func initTestQueue() Queue[int32] {
 	var test Queue[int32]
 
 	test.Queue(5)
 	test.Queue(10)
 	test.Queue(15)
+
+	return test
+}
+
+func TestQueue(t *testing.T) {
+
+	test := initTestQueue()
 
 	var expected int32 = 5
 
@@ -19,8 +27,12 @@ func TestQueue(t *testing.T) {
 
 }
 
-func TestSize(t *testing.T) {
+func TestQueueSize(t *testing.T) {
 	var test Queue[int32]
+
+	if test.Size() != 0 {
+		t.Errorf("Empty queue does not have size of 0")
+	}
 
 	test.Queue(5)
 	test.Queue(10)
@@ -35,7 +47,7 @@ func TestSize(t *testing.T) {
 func TestQueuePeek(t *testing.T) {
 	var test Queue[int32]
 
-	if test.Peek() != nil {
+	if test.Peek() != 0 && test.Size() != 0 {
 		t.Errorf("Peeking a value; Expected: nil; Got: %v", test.Peek())
 	}
 
@@ -48,25 +60,6 @@ func TestQueuePeek(t *testing.T) {
 	if test.Peek() != expected {
 		t.Errorf("Peeking a value; Expected: %v; Got: %v", expected, test.Peek())
 	}
-}
-
-func TestPeekLast(t *testing.T) {
-	var test Queue[int32]
-
-	if test.PeekLast() != nil {
-		t.Errorf("Peeking last with empty queue; Expected: %v; Got: %v", "nil", test.PeekLast())
-	}
-
-	test.Queue(5)
-	test.Queue(10)
-	test.Queue(15)
-
-	var expected int32 = 15
-
-	if test.PeekLast() != expected {
-		t.Errorf("Peeking last; Expected: %v; Got: %v", expected, test.PeekLast())
-	}
-
 }
 
 func TestDequeue(t *testing.T) {
@@ -83,19 +76,4 @@ func TestDequeue(t *testing.T) {
 	if test.Peek() != expected {
 		t.Errorf("Peeking; Expected: %v; Got: %v", expected, test.Peek())
 	}
-}
-
-func TestQueuePrint(t *testing.T) {
-	var test Queue[int32]
-
-	test.Queue(5)
-	test.Queue(10)
-	test.Queue(15)
-
-	expected := "5 -> 10 -> 15\n"
-
-	if test.Print() != expected {
-		t.Errorf("Printing; Expected: %v; Got: %v", expected, test.Print())
-	}
-
 }

@@ -68,20 +68,21 @@ func (dll *DLL[T]) Length() int64 {
 }
 
 func (dll *DLL[T]) Get(index int64) (error, T) {
-	
+	var zero T
+
+	if dll.first == nil {
+		return fmt.Errorf("list is empty"), zero
+	}
+
+	if index >= dll.Length() {
+		return fmt.Errorf("index out of range"), zero
+	}
+
+	// If index is closer to beginning, start from beginning
 	if index <= (dll.Length() / 2) {
 		var i int64 = 0
-		var zero T
-
-		if dll.first == nil {
-			return fmt.Errorf("list is empty"), zero
-		}
 
 		currentNode := dll.first
-
-		if index >= dll.Length() {
-			return fmt.Errorf("index out of range"), zero
-		}
 
 		for {
 			if index == i {
@@ -91,19 +92,10 @@ func (dll *DLL[T]) Get(index int64) (error, T) {
 				i += 1
 			}
 		}
-	} else {
+	} else { // If index is closer to end start from end and work way backwards
 		var i int64 = dll.Length() - 1
-		var zero T
-
-		if dll.first == nil {
-			return fmt.Errorf("list is empty"), zero
-		}
 
 		currentNode := dll.last
-
-		if index >= dll.Length() {
-			return fmt.Errorf("index out of range"), zero
-		}
 
 		for {
 			if index == i {

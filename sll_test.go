@@ -2,7 +2,7 @@ package dsa
 
 import "testing"
 
-func initSLL() SLL[int] {
+func initTestSLL() SLL[int] {
 	var sll SLL[int]
 
 	numbers := []int{5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100}
@@ -43,10 +43,15 @@ func TestSLLInsertEnd(t *testing.T) {
 		t.Errorf("Did not insert 2 items correctly")
 	}
 
+	sll.InsertEnd(15)
+	if sll.first.item != 5 || sll.last.item != 15 {
+		t.Errorf("Did not insert 3 items correctly")
+	}
+
 }
 
 func TestSLLLength(t *testing.T) {
-	sll := initSLL()
+	sll := initTestSLL()
 
 	if sll.Length() != 20 {
 		t.Errorf("Incorrect length reported; Expected %v; Got %v", 20, sll.Length())
@@ -54,7 +59,7 @@ func TestSLLLength(t *testing.T) {
 }
 
 func TestSLLGet(t *testing.T) {
-	sll := initSLL()
+	sll := initTestSLL()
 
 	err, item := sll.Get(8)
 	if err != nil {
@@ -77,8 +82,18 @@ func TestSLLGet(t *testing.T) {
 
 }
 
+func TestSLLGetLast(t *testing.T) {
+	sll := initTestSLL()
+
+	sll.InsertEnd(101)
+
+	if sll.getLast() != 101 {
+		t.Errorf("Did not properly get the last item")
+	}
+}
+
 func TestSLLRemove(t *testing.T) {
-	sll := initSLL()
+	sll := initTestSLL()
 
 	err := sll.Remove(0)
 	if err != nil || sll.first.item != 10 {

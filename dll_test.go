@@ -69,15 +69,15 @@ func TestDLLGet(t *testing.T) {
 		t.Errorf("Get did not get correct index; Expected value %v; Got %v", 45, item)
 	}
 
-	err, item = dll.Get(19)
+	err, item = dll.Get(18)
 	if err != nil {
 		t.Errorf("Error getting index")
 	}
-	if item != 100 {
+	if item != 95 {
 		t.Errorf("error getting by walking from rear of DLL; Expected %v; Got %v", 100, item)
 	}
 
-	err, _ = dll.Get(69)
+	err, _ = dll.Get(99999)
 	if err.Error() != "index out of range" {
 		t.Errorf("No error value trying to get index outside of range")
 	}
